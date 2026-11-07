@@ -150,6 +150,15 @@ If you want the full technical breakdown, read `CLAUDE.md`. But here's the short
 
 **Menu bar app** (no dock icon) with two `NSPanel` windows — one for the control panel dropdown, one for the full-screen transparent cursor overlay. Push-to-talk streams audio over a websocket to AssemblyAI, sends the transcript + screenshot to Claude via streaming SSE, and plays the response through ElevenLabs TTS. Claude can embed `[POINT:x,y:label:screenN]` tags in its responses to make the cursor fly to specific UI elements across multiple monitors. All three APIs are proxied through a Cloudflare Worker.
 
+## Community iOS client
+
+A native iPhone/iPad companion is available in [`mobile/`](mobile/README.md).
+It supports streamed chat, selected screenshot attachments, Apple Speech
+dictation, and optional ElevenLabs spoken replies using your own Worker.
+Open `mobile/ClickyMobile.xcodeproj` in Xcode; see the mobile README for setup,
+privacy, platform limitations, and the device acceptance checklist.
+This community client is not the official HeyClicky mobile app.
+
 ## Project structure
 
 ```
