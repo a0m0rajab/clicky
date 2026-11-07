@@ -23,6 +23,25 @@ All API keys live on a Cloudflare Worker proxy — nothing sensitive ships in th
 - **Concurrency**: `@MainActor` isolation, async/await throughout
 - **Analytics**: PostHog via `ClickyAnalytics.swift`
 
+### Community iOS Client
+
+`mobile/ClickyMobile.xcodeproj` is a separate iOS 17+ SwiftUI app for iPhone/iPad.
+It reuses the existing Worker's `/chat` SSE and `/tts` endpoints. Apple Speech
+dictates into an editable composer; PhotosPicker provides explicitly selected
+images rather than background screen capture. Provider keys remain on the Worker.
+Open the shared ClickyMobile scheme in Xcode and run with Cmd+R. The restriction
+on terminal `xcodebuild` also applies here. See `mobile/README.md` for setup and
+the manual acceptance checklist. Do not imply a Linux source check verifies
+native compilation, device behavior, or live provider responses.
+
+| Mobile file | Lines | Purpose |
+|-------------|-------|---------|
+| `mobile/ClickyMobile/ClickyMobileApp.swift` | ~11 | SwiftUI application entry point. |
+| `mobile/ClickyMobile/CompanionView.swift` | ~300 | Chat, image picker, dictation controls, and backend/privacy settings. |
+| `mobile/ClickyMobile/CompanionStore.swift` | ~155 | Conversation, cancellation, audio playback, and image preparation. |
+| `mobile/ClickyMobile/ProxyClient.swift` | ~135 | HTTPS Worker validation, Claude SSE parsing, and ElevenLabs audio requests. |
+| `mobile/ClickyMobile/VoiceInput.swift` | ~90 | Permission-gated Apple Speech and microphone lifecycle. |
+
 ### API Proxy (Cloudflare Worker)
 
 The app never calls external APIs directly. All requests go through a Cloudflare Worker (`worker/src/index.ts`) that holds the real API keys as secrets.
